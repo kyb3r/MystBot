@@ -38,12 +38,16 @@ async def get_prefix(b, msg):
 
     if await dbp.find().count() <= 0:
         await dbp.insert_many([{'_id': 'myst '}, {'_id': 'myst pls '}])
+        bot.prefix_cache[msg.guild.id] = ['myst ', 'myst pls ']
         return defaults
     else:
-        prefixes = sorted([p['_id'] async for p in dbp.find()], reverse=True)
+        prefixes = sorted(bot.prefix_cache[msg.guild.id], reverse=True)
         return commands.when_mentioned_or(*prefixes)(b, msg)
 
-init_ext = ()
+init_ext = ('cogs.admin',
+            'cogs.utils.handler',
+            'cogs.moderation',
+            'cogs.music',)
 
 
 class Botto(commands.Bot):
@@ -51,14 +55,19 @@ class Botto(commands.Bot):
     def __init__(self):
         self.session = None
         self.blocks = {}
+        self.prefix_cache = {}
         self.dbc = dbc
         self.uptime = datetime.datetime.utcnow()
         self.appinfo = None
         super().__init__(command_prefix=get_prefix, description=None)
 
     async def _load_cache(self):
-
         self.session = aiohttp.ClientSession(loop=loop)
+
+        for guild in self.guilds:
+            if await self.dbc['prefix'][str(guild.id)].find({}).count() <= 0:
+                await self.dbc['prefix'][str(guild.id)].insert_many([{'_id': 'myst '}, {'_id': 'myst pls '}])
+            self.prefix_cache[guild.id] = [p['_id'] async for p in self.dbc['prefix'][str(guild.id)].find({})]
 
         async for mem in dbc['owner']['blocks'].find({}):
             self.blocks[mem['_id']] = [mem['name']]
@@ -103,7 +112,6 @@ class Botto(commands.Bot):
 
 
 bot = Botto()
-loop.run_until_complete(bot._load_cache())
 
 
 @contextlib.contextmanager
@@ -132,6 +140,7 @@ def setup_logging():
 @bot.event
 async def on_ready():
 
+    await bot._load_cache()
     bot.appinfo = await bot.application_info()
 
     print(f'\n\nLogging in as: {bot.user.name} - {bot.user.id}\n')
