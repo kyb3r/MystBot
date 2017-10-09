@@ -47,7 +47,8 @@ async def get_prefix(b, msg):
 init_ext = ('cogs.admin',
             'cogs.utils.handler',
             'cogs.moderation',
-            'cogs.music',)
+            'cogs.music',
+            'cogs.apis')
 
 
 class Botto(commands.Bot):
@@ -191,6 +192,6 @@ with setup_logging():
     token.read('config.ini')
 
     try:
-        loop.run_until_complete(bot.start(token.get('TOKENALPHA', '_id'), bot=True, reconnect=True))
+        loop.run_until_complete(bot.start(token.get('TOKEN', '_id'), bot=True, reconnect=True))
     except KeyboardInterrupt:
         loop.run_until_complete(shutdown())

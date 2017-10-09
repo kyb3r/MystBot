@@ -87,12 +87,16 @@ class Admin:
     @bot_blocks.command(name='list', aliases=['show'])
     async def block_list(self, ctx):
 
+        if len(self.bot.blocks) <= 0:
+            return await ctx.send('No users are currently blocked.')
+
         pages = SimplePaginator(title='Blocked List:',
                                 colour=0xe52b2b,
                                 prepend='`**',
                                 append='**`',
                                 bot=self.bot,
-                                ctx=ctx)
+                                ctx=ctx,
+                                entries=self.bot.blocks.values())
         await pages.embed_creator()
 
 
