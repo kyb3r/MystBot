@@ -23,8 +23,12 @@ else:
 loop = asyncio.get_event_loop()
 dbc = motor_asyncio.AsyncIOMotorClient(minPoolSize=5)
 
+token = ConfigParser()
+token.read('mystconfig.ini')
+
 
 async def get_prefix(b, msg):
+    await b._cache_ready.wait()
 
     defaults = commands.when_mentioned_or(*['myst pls ', 'myst '])(b, msg)
 
@@ -60,9 +64,12 @@ class Botto(commands.Bot):
         self.dbc = dbc
         self.uptime = datetime.datetime.utcnow()
         self.appinfo = None
+        self._cache_ready = asyncio.Event()
+
         super().__init__(command_prefix=get_prefix, description=None)
 
     async def _load_cache(self):
+        self._cache_ready.clear()
         self.session = aiohttp.ClientSession(loop=loop)
 
         for guild in self.guilds:
@@ -72,6 +79,8 @@ class Botto(commands.Bot):
 
         async for mem in dbc['owner']['blocks'].find({}):
             self.blocks[mem['_id']] = [mem['name']]
+
+        self._cache_ready.set()
 
     async def fetch(self, url: str, headers: dict = None, timeout: float = None,
                     return_type: str = None, **kwargs):
@@ -187,9 +196,6 @@ async def shutdown():
     sys.exit(0)
 
 with setup_logging():
-
-    token = ConfigParser()
-    token.read('config.ini')
 
     try:
         loop.run_until_complete(bot.start(token.get('TOKEN', '_id'), bot=True, reconnect=True))
