@@ -78,7 +78,7 @@ class Botto(commands.Bot):
             self.prefix_cache[guild.id] = [p['_id'] async for p in self.dbc['prefix'][str(guild.id)].find({})]
 
         async for mem in dbc['owner']['blocks'].find({}):
-            self.blocks[mem['_id']] = [mem['name']]
+            self.blocks[mem['_id']] = mem['name']
 
         self._cache_ready.set()
 
@@ -198,6 +198,6 @@ async def shutdown():
 with setup_logging():
 
     try:
-        loop.run_until_complete(bot.start(token.get('TOKEN', '_id'), bot=True, reconnect=True))
+        loop.run_until_complete(bot.start(token.get('TOKENALPHA', '_id'), bot=True, reconnect=True))
     except KeyboardInterrupt:
         loop.run_until_complete(shutdown())

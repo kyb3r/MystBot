@@ -96,7 +96,7 @@ class Admin:
                                 append='`**',
                                 bot=self.bot,
                                 ctx=ctx,
-                                entries=list(self.bot.blocks.values())[0])
+                                entries=tuple(self.bot.blocks.values()))
         await pages.embed_creator()
 
 
