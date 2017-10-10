@@ -92,11 +92,11 @@ class Admin:
 
         pages = SimplePaginator(title='Blocked List:',
                                 colour=0xe52b2b,
-                                prepend='`**',
-                                append='**`',
+                                prepend='**`',
+                                append='`**',
                                 bot=self.bot,
                                 ctx=ctx,
-                                entries=self.bot.blocks.values())
+                                entries=list(self.bot.blocks.values())[0])
         await pages.embed_creator()
 
 
