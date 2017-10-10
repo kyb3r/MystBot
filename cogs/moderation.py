@@ -10,6 +10,8 @@ from cogs.utils.enums import Perms
 
 
 class Moderation:
+    """Various moderation commands. Most of these commands can only be used by members with
+    manage_server permissions or higher."""
 
     def __init__(self, bot):
         self.bot = bot
@@ -17,6 +19,7 @@ class Moderation:
 
     @commands.group(name='prefix', invoke_without_command=True)
     async def prefix(self, ctx):
+        """Prefix related commands."""
         pass
 
     @prefix.command(name='add', aliases=['set'])
@@ -88,7 +91,7 @@ class Moderation:
     @commands.command(name='prefixes')
     @commands.guild_only()
     async def get_prefixes(self, ctx):
-        """Lists the prefixes assigned to me, specific to your Server."""
+        """An alias to prefix list. Which displays my prefixes for your Server."""
 
         await ctx.invoke(self.list_prefix)
 
@@ -112,7 +115,7 @@ class Moderation:
     @commands.command(name='source', aliases=['sauce'])
     @commands.is_owner()
     async def get_source(self, ctx, *, command: str):
-        """Posts the source code of a command or cod."""
+        """Retrieve the source code of a command or cog."""
 
         cmd = self.bot.get_command(command)
         if cmd is not None:
@@ -134,7 +137,7 @@ class Moderation:
     @commands.command(name='perms', aliases=['perms_for', 'permissions'])
     @commands.guild_only()
     async def check_permissions(self, ctx, *, member: discord.Member=None):
-        """A simple command which checks a members Guild Permissions."""
+        """Check a members Guild Permissions."""
 
         if not member:
             member = ctx.author
@@ -155,8 +158,9 @@ class Moderation:
     @commands.guild_only()
     async def purge_messages(self, ctx, limit: int=10, member: discord.Member=None):
         """Purge all messages within the provided limit.
+
          limit : The number of messages to check.
-         member : The member whos messages should be removed."""
+         member : The member who's messages should be removed."""
 
         def check(message):
             return member.id == message.author.id
@@ -168,9 +172,10 @@ class Moderation:
             await ctx.send(f'Purged **{len(purged)}** messages.', delete_after=10)
 
     @commands.command(name='botclear', aliases=['bclear'])
-    @commands.has_permissions(manage_permissions=True)
+    @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
     async def botpurge_messages(self, ctx, limit: int=100, ago: int=None):
+        """Purge all messages belonging to the bot. Within the specified limit."""
 
         if limit > 101:
             return await ctx.send('Limit can not be more than **101**.')

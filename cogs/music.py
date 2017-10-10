@@ -339,6 +339,11 @@ class Player:
 
 
 class Music:
+    """Music related commands for Mysterial.
+
+    For music to work properly, the bot must be able to Embed.
+    It is advisable to allow the bot remove reactions and manage messages."""
+
     def __init__(self, bot):
         self.bot = bot
         self.players = {}
@@ -394,6 +399,7 @@ class Music:
     @commands.cooldown(2, 30, commands.BucketType.guild)
     @commands.guild_only()
     async def now_playing(self, ctx):
+        """Display the current song, and the reaction controller."""
 
         player = self.get_player(ctx)
         await player.now_playing(player.playing_info, ctx.channel)
@@ -401,6 +407,7 @@ class Music:
     @commands.command(name='play', aliases=['sing'])
     @commands.guild_only()
     async def search_song(self, ctx, *, search: str):
+        """Play a song. If no link is provided, Myst will search YouTube for the song."""
 
         vc = ctx.guild.voice_client
 
@@ -427,6 +434,8 @@ class Music:
     @commands.has_permissions(move_members=True)
     @commands.guild_only()
     async def voice_connect(self, ctx, *, channel: discord.VoiceChannel = None):
+        """Summon Myst to a channel. If she is another channel she will be moved."""
+
         vc = ctx.guild.voice_client
 
         if vc is not None:
@@ -472,6 +481,7 @@ class Music:
     @commands.command(name='resume')
     @commands.guild_only()
     async def resume_song(self, ctx):
+        """Resume the paused song."""
 
         player = self.get_player(ctx)
         vc = ctx.guild.voice_client
@@ -537,6 +547,7 @@ class Music:
     @commands.cooldown(2, 90, commands.BucketType.user)
     @commands.guild_only()
     async def pause_song(self, ctx):
+        """Pause the current song."""
 
         player = self.get_player(ctx)
         vc = ctx.guild.voice_client
@@ -589,6 +600,7 @@ class Music:
     @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
     async def stop_player(self, ctx):
+        """Terminate the player and clear the Queue."""
 
         vc = ctx.guild.voice_client
         player = self.get_player(ctx)
@@ -614,6 +626,7 @@ class Music:
     @commands.cooldown(1, 180, commands.BucketType.user)
     @commands.guild_only()
     async def shuffle_songs(self, ctx):
+        """Shuffle all songs in your Queue."""
 
         vc = ctx.guild.voice_client
         player = self.get_player(ctx)
@@ -668,6 +681,7 @@ class Music:
     @commands.cooldown(9, 60, commands.BucketType.user)
     @commands.guild_only()
     async def vol_up(self, ctx):
+        """Turn the Volume Up!"""
 
         player = self.get_player(ctx)
         vc = ctx.guild.voice_client
@@ -689,6 +703,7 @@ class Music:
     @commands.cooldown(9, 60, commands.BucketType.user)
     @commands.guild_only()
     async def vol_down(self, ctx):
+        """Turn the Volume down."""
 
         player = self.get_player(ctx)
         vc = ctx.guild.voice_client
@@ -710,6 +725,7 @@ class Music:
     @commands.cooldown(2, 60, commands.BucketType.user)
     @commands.guild_only()
     async def skip_song(self, ctx):
+        """Skips the current song."""
 
         player = self.get_player(ctx)
         vc = ctx.guild.voice_client
@@ -763,6 +779,7 @@ class Music:
     @commands.cooldown(3, 60, commands.BucketType.guild)
     @commands.guild_only()
     async def repeat_song(self, ctx):
+        """Repeat the current song 1 time."""
 
         vc = ctx.guild.voice_client
         player = self.get_player(ctx)
@@ -795,6 +812,7 @@ class Music:
     @commands.cooldown(2, 90, commands.BucketType.user)
     @commands.guild_only()
     async def queue_info(self, ctx):
+        """Display the Queue of songs."""
 
         player = self.get_player(ctx)
         vc = ctx.guild.voice_client

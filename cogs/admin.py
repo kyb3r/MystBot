@@ -6,10 +6,11 @@ import traceback
 import textwrap
 from contextlib import redirect_stdout
 
-from .utils.paginators import SimplePaginator
+from .utils.paginators import SimplePaginator, HelpPaginator
 
 
 class Admin:
+
     def __init__(self, bot):
         self.bot = bot
         self.db = self.bot.dbc['owner']
@@ -98,6 +99,13 @@ class Admin:
                                 ctx=ctx,
                                 entries=tuple(self.bot.blocks.values()))
         await pages.embed_creator()
+
+    @commands.command(name='help', hidden=True)
+    async def help_paginator(self, ctx):
+        # todo
+        helpy = HelpPaginator(bot=self.bot, ctx=ctx)
+
+        await helpy.help_generator()
 
 
 class Eval:

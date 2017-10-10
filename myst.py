@@ -52,18 +52,22 @@ init_ext = ('cogs.admin',
             'cogs.utils.handler',
             'cogs.moderation',
             'cogs.music',
-            'cogs.apis')
+            'cogs.apis',
+            'cogs.koth',)
 
 
 class Botto(commands.Bot):
 
     def __init__(self):
-        self.session = None
         self.blocks = {}
         self.prefix_cache = {}
+        self._help_pages = None
+
         self.dbc = dbc
+        self.session = None
         self.uptime = datetime.datetime.utcnow()
         self.appinfo = None
+
         self._cache_ready = asyncio.Event()
 
         super().__init__(command_prefix=get_prefix, description=None)
@@ -120,8 +124,8 @@ class Botto(commands.Bot):
         resp, respj = await self.poster('https://api.github.com/gists', data=json.dumps(payload), return_type='json')
         return respj['html_url']
 
-
 bot = Botto()
+bot.remove_command('help')
 
 
 @contextlib.contextmanager

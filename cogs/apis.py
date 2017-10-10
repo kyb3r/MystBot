@@ -3,12 +3,14 @@ from discord.ext import commands
 
 
 class Colour:
+    """Colour related commands. More coming soon...™"""
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name='colour', aliases=['color', 'col'])
     async def show_colour(self, ctx, colour: str):
+        """Display a colour and popular scheme, from a HEX or RGB."""
 
         if ctx.message.mentions:
             colour = ctx.message.mentions[0].colour
@@ -46,18 +48,21 @@ class Colour:
         try:
             resp, datap = await self.bot.fetch(urlp, return_type='json')
         except:
-            image = f'https://dummyimage.com/300/{data["hex"]["clean"]}.png'
-            colours = None
-        else:
+            pass
+
+        try:
             image = datap[0]['imageUrl']
             colours = datap[0]['colors']
+        except:
+            image = f'https://dummyimage.com/300/{data["hex"]["clean"]}.png'
+            colours = None
 
         emcol = f"0x{data['hex']['clean']}"
         embed = discord.Embed(title=f'Colour - {data["name"]["value"]}', colour=int(emcol, 0))
         embed.set_thumbnail(url=f'https://dummyimage.com/150/{data["hex"]["clean"]}.png')
         embed.set_image(url=image)
         embed.add_field(name='HEX', value=f'{data["hex"]["value"]}')
-        embed.add_field(name='RBG', value=f'{data["rgb"]["value"]}')
+        embed.add_field(name='RGB', value=f'{data["rgb"]["value"]}')
         embed.add_field(name='HSL', value=f'{data["hsl"]["value"]}')
         embed.add_field(name='HSV', value=f'{data["hsv"]["value"]}')
         embed.add_field(name='CMYK', value=f'{data["cmyk"]["value"]}')
