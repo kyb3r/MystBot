@@ -129,7 +129,7 @@ class Moderation:
             code = textwrap.dedent(code).replace('`', '\uFEFF')
 
         if len(code) > 1990:
-            gist = await self.bot.create_gist(self.bot.session, f'Source for {command}', [(f'{command}.py', code)])
+            gist = await self.bot.create_gist(f'Source for {command}', [(f'{command}.py', code)])
             return await ctx.send(f'**Your requested source was too large... So I have uploaded it to Gist.**\n{gist}')
 
         await ctx.send(f'```py\n{code}\n```')

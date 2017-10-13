@@ -166,7 +166,7 @@ class HelpPaginator:
         self.bot = bot
         self.ctx = ctx
         self.colours = {'Music': 0xd02525, 'Moderation': 0xff8003, 'Colour': 0xdeadbf,
-                        'Admin': 0xffffff, 'Eval': 0xffffff, 'KothHandler': 0xffffff}
+                        'Admin': 0xffffff, 'Eval': 0xffffff, 'KothHandler': 0xffffff, 'Plots': 0xffffff}
         self.ignored = ('Eval', 'Admin', 'KothHandler', 'ErrorHandler',)
 
         self.current = 0
@@ -184,7 +184,7 @@ class HelpPaginator:
                               description='For additional help and resources:\n\n'
                                           'Discord Server: [Here](http://discord.gg/Hw7RTtr)\n'
                                           'Mysterial Web:  [Here](http://mysterialbot.com/)\n\n'
-                                          'To use the help command, simply with click on the reactions below.',
+                                          'To use the help command, simply use the reactions below.',
                               colour=0x8599ff)
         self.pages.append(about)
 
@@ -285,13 +285,3 @@ class HelpPaginator:
                 await message.edit(embed=self.pages[self.current])
             except KeyError:
                 continue
-
-
-
-
-
-
-
-
-
-

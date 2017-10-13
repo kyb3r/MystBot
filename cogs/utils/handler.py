@@ -27,7 +27,7 @@ class ErrorHandler:
     def __init__(self, bot):
         self.bot = bot
         self.wh_info = ConfigParser()
-        self.wh_info.read('mystconfig.ini')
+        self.wh_info.read('/root/mystbot/mystconfig.ini')
 
     @property
     def webhook(self):
@@ -72,6 +72,8 @@ class ErrorHandler:
         e.add_field(name='Location', value=fmt, inline=False)
 
         exc = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
+        if len(exc) > 2000:
+            print(exc)
         e.description = f'```py\n{exc}\n```'
         e.timestamp = datetime.datetime.utcnow()
         await self.webhook.send(embed=e)
