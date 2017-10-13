@@ -205,7 +205,7 @@ class HelpPaginator:
                     continue
                 if isinstance(c, commands.Group):
                     grouped = '  \n'.join(com.name for com in c.commands)
-                    embed.add_field(name=f'{c.name} - <Group>', value=f'{c.short_doc if c.short_doc else "Nothing"}'
+                    embed.add_field(name=f'{c.name} - [Group]', value=f'{c.short_doc if c.short_doc else "Nothing"}'
                                                                       f'\n\n`{grouped}`')
                 else:
                     embed.add_field(name=c.name, value=c.short_doc if c.short_doc else 'Nothing', inline=False)

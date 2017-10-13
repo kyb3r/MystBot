@@ -24,7 +24,7 @@ loop = asyncio.get_event_loop()
 dbc = motor_asyncio.AsyncIOMotorClient(minPoolSize=5)
 
 token = ConfigParser()
-token.read('mystconfig.ini')
+token.read('mystconfig.ini')  # !!!VPS!!!
 
 
 async def get_prefix(b, msg):
@@ -205,6 +205,6 @@ async def shutdown():
 with setup_logging():
 
     try:
-        loop.run_until_complete(bot.start(token.get('TOKENALPHA', '_id'), bot=True, reconnect=True))
+        loop.run_until_complete(bot.start(token.get('TOKENALPHA', '_id'), bot=True, reconnect=True))  # !!!VPS!!!
     except KeyboardInterrupt:
         loop.run_until_complete(shutdown())

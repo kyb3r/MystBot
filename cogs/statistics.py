@@ -273,8 +273,8 @@ class Plots:
         current = datetime.datetime.utcnow()
         save = current.strftime("%Y-%m-%d%H%M")
 
-        plt.savefig(f'/root/mystbot/pings/{save}', bbox_inches='tight')
-        self.bot._latest_ping[save] = f'/root/mystbot/pings/{save}.png'
+        plt.savefig(f'/pings/{save}', bbox_inches='tight')  # !!!VPS!!!
+        self.bot._latest_ping[save] = f'/pings/{save}.png'  # !!!VPS!!!
 
         plt.clf()
         plt.close()
@@ -298,7 +298,7 @@ class Plots:
 
         getfile = functools.partial(self.ping_plotter)
         pfile = await self.bot.loop.run_in_executor(self.threadex, getfile)
-        await ctx.send(file=discord.File(f'/root/mystbot/pings/{pfile}.png'))
+        await ctx.send(file=discord.File(f'/pings/{pfile}.png'))  # !!!VPS!!!
 
 
 def setup(bot):

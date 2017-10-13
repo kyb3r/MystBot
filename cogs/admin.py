@@ -160,7 +160,7 @@ class Eval:
         else:
             value = stdout.getvalue()
             try:
-                await ctx.message.add_reaction('\uD83C\uDD97')
+                await ctx.message.add_reaction('🔘')
             except:
                 pass
 

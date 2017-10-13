@@ -27,7 +27,7 @@ class ErrorHandler:
     def __init__(self, bot):
         self.bot = bot
         self.wh_info = ConfigParser()
-        self.wh_info.read('/root/mystbot/mystconfig.ini')
+        self.wh_info.read('mystconfig.ini')  # !!!VPS!!!
 
     @property
     def webhook(self):
