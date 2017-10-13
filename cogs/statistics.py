@@ -95,7 +95,6 @@ class Plots:
         xnp = np.linspace(-np.pi, np.pi, 60)
         tmean = [np.mean(t)] * 60
 
-
         # Spacing/Figure/Subs
         plt.style.use('ggplot')
         fig = plt.figure(figsize=(15, 7.5))
